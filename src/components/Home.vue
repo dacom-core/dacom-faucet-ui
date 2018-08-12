@@ -524,7 +524,7 @@ a {
         margin-right: auto;
     }
     .key{
-      font-size: 8px;
+      font-size: 10px;
     }
 }
 
