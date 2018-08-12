@@ -61,30 +61,33 @@
   </el-col>
 </el-row>
 
-<el-row v-if="step==3" type="flex"  justify="space-around">
-    <el-col :span="6" :xs="24" :md="8">
-      <div style="text-align: center">
-        <h2>{{$t("paid_registration")}}</h2>
-        <h3>10$</h3>
-        <el-button type="primary" @click="go_to_buy()">{{$t("choise")}}</el-button>
-        <p style="text-align: justify;">{{$t("paid_account")}}</p>
-      </div>
-    </el-col>
-
-    <el-col :span="6" :xs="24" :md="8">
+<el-row v-if="step==3" class="dynamic" type="flex" justify="space-around">
+    <el-col :xl="8" :lg="8" :xs="24" :md="8">
       <div style="text-align: center">
         <h2>{{$t("conditionally_registration")}}</h2>
         <h3>{{$t("one_task")}}</h3>
         <el-button type="primary" @click="go_to_task()">{{$t("get_one_task")}}</el-button>
-        <p style="text-align: justify;">{{$t("you_are_inveted")}}</p>
+        <p >{{$t("you_are_inveted")}}</p>
       </div>      
     </el-col>
+
+    <el-col :xl="8" :lg="8" :xs="24" :md="8">
+      <div style="text-align: center">
+        <h2>{{$t("paid_registration")}}</h2>
+        <h3>10$</h3>
+        <el-button type="primary" @click="go_to_buy()">{{$t("choise")}}</el-button>
+        <p >{{$t("paid_account")}}</p>
+      </div>
+    </el-col>
 </el-row>
-<el-row v-if="step==3" type="flex" justify="space-around">
+
+<el-row v-if="step==3" class="reset" type="flex" justify="space-around">
       <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
 </el-row>
 
+
 <el-row v-if="step==4" type="flex" align="middle" justify="center" class="centered_inputs">
+      <el-col :xl="24" :lg="24" :xs="24" :md="24">
       <div class="centered_inputs">
       <p>{{$t("username")}}: </p>
       <div class="keys">{{username}}  </div>
@@ -97,6 +100,7 @@
       <div class="loader"></div>
       
     </div>
+  </el-col>
 </el-row>
 
 <el-row v-if="step==6" type="flex" align="middle" justify="center" class="centered_inputs">
@@ -423,6 +427,7 @@ a {
     background: gainsboro;
     border: 1px solid;
     text-align: center;
+    font-size: 14px;
 }
 .key{
   font-size: 12px;
@@ -505,6 +510,19 @@ a {
   the others are 41px
   */
   height: 245px;
+}
+
+.reset{
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+@media only screen and (max-width : 1000px) {
+    .dynamic {
+        display: grid !important;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 </style>
