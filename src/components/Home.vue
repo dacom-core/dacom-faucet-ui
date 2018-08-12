@@ -42,7 +42,7 @@
 </el-row>
 
 <el-row v-if="step==2" type="flex" align="middle" justify="center" class="centered_inputs">
-        <el-col :span="12" :xs="24" :md="24">
+        <el-col :xl="24" :lg="24" :xs="24" :md="24">
       <div class="centered_inputs">
       <p>{{$t("save_the_keys")}}</p>
       <div class="keys">
@@ -522,6 +522,8 @@ a {
         text-align: center;
         margin-left: auto;
         margin-right: auto;
+    }
+    .key{
     }
 }
 
