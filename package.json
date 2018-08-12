@@ -12,9 +12,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.4",
-    "eosjs": "^15.0.6",
+    "eosjs": "^16.0.0",
     "eosjs-api": "^6.3.2",
-    "eosjs-ecc": "^4.0.3",
+    "eosjs-ecc": "^4.0.2",
     "vue": "^2.5.2",
     "vue-i18n": "^8.0.0",
     "vue-localstorage": "^0.6.2",
