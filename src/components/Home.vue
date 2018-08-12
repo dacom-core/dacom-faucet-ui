@@ -116,7 +116,7 @@
       <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
       <el-button v-if="task_sended==0" type="success"  @click="task_confirm()">{{$t("confirm")}}</el-button>
       <div style="margin-top: 25px; background: gainsboro;border: 1px solid; text-align: center;" v-if="admin_message_flag==1">
-        <div style=""><b>$t("message_from_community"):</b></div>
+        <div style=""><b>{{$t("message_from_community")}}:</b></div>
         <div>{{admin_comment}}</div>
       </div>
       <div v-if="task_sended==1" class="loader"></div>
