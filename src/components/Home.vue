@@ -101,7 +101,7 @@
 
 <el-row v-if="step==6" type="flex" align="middle" justify="center" class="centered_inputs">
       <div class="centered_inputs">
-      <p style="text-align: center">{{$t("username")}}: {{username}}</p>
+      <p style="text-align: center">{{$t("username")}}: <u>{{username}}</u></p>
       <p>{{$t("task1")}}</p>
       <div class="keys">{{$t("task2")}}</div>
       <p>{{$t("after_task_complete")}}</p>
@@ -112,7 +112,7 @@
       <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
       <el-button v-if="task_sended==0" type="success"  @click="task_confirm()">{{$t("confirm")}}</el-button>
       <div style="margin-top: 25px; background: gainsboro;border: 1px solid; text-align: center;" v-if="admin_message_flag==1">
-        <div style=""><b>:</b></div>
+        <div style=""><b>$t("message_from_community"):</b></div>
         <div>{{admin_comment}}</div>
       </div>
       <div v-if="task_sended==1" class="loader"></div>
@@ -141,10 +141,10 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueLocalStorage from 'vue-localstorage'
 Vue.use(VueLocalStorage)
-Vue.localStorage.get(this.app + '_eos_new_account', "''")
-Vue.localStorage.get(this.app + '_eos_username_reserved_flag', false)
-Vue.localStorage.get(this.app + '_eos_keys_saved_flag', false)
-Vue.localStorage.get(this.app + "_eos_task_sended", 0)
+Vue.localStorage.get('_eos_new_account', "''")
+Vue.localStorage.get('_eos_username_reserved_flag', false)
+Vue.localStorage.get('_eos_keys_saved_flag', false)
+Vue.localStorage.get("_eos_task_sended", 0)
 
 let ecc = require('eosjs-ecc')
 let TcApi = require('eosjs-api')
@@ -208,22 +208,24 @@ export default {
       };
     },
     created(){
-      var saved_username =  Vue.localStorage.get(this.app + '_eos_new_account')
+      var saved_username =  Vue.localStorage.get('_eos_new_account')
       this.username = saved_username
       
-      var step = Vue.localStorage.get(this.app + '_eos_step', 1)
+      var step = Vue.localStorage.get('_eos_step', 1)
       this.step= step
-      
-      var step = Vue.localStorage.get(this.app + '_eos_locale', 'en')
-      this.locale= step
+      var locale = Vue.localStorage.get('_eos_locale', 'en')
+      if (locale == "ru")
+        this.$locale = 'ru'
 
-      var eth = Vue.localStorage.get(this.app + '_eos_eth', "")
+      this.locale = locale
+
+      var eth = Vue.localStorage.get('_eos_eth', "")
         this.eth= eth
       
-      var topay = Vue.localStorage.get(this.app + '_eos_topay', "")
+      var topay = Vue.localStorage.get('_eos_topay', "")
         this.topay = topay
 
-      var task_sended = Vue.localStorage.get(this.app + '_task_sended', 0)
+      var task_sended = Vue.localStorage.get('_task_sended', 0)
         this.task_sended = task_sended
       
       this.app = process.env.APP
@@ -250,8 +252,8 @@ export default {
         var self = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            Vue.localStorage.set(this.app + "_eos_new_account", this.username)
-            Vue.localStorage.set(this.app + '_eos_step', 2)
+            Vue.localStorage.set("_eos_new_account", this.username)
+            Vue.localStorage.set('_eos_step', 2)
             self.step = 2
 
             
@@ -292,16 +294,16 @@ export default {
               console.log(data)
               this.eth = data.data.addr
               this.topay = data.data.to_pay
-              Vue.localStorage.set(this.app + "_eos_eth", data.data.addr)
-              Vue.localStorage.set(this.app + "_eos_topay", data.data.to_pay)
+              Vue.localStorage.set("_eos_eth", data.data.addr)
+              Vue.localStorage.set("_eos_topay", data.data.to_pay)
               this.step = 4
-              Vue.localStorage.set(this.app + "_ eos_step", 4)
+              Vue.localStorage.set("_ eos_step", 4)
             })
       },
 
       go_to_task(){
         this.step = 6
-        Vue.localStorage.set(this.app + "_eos_step", 6)
+        Vue.localStorage.set("_eos_step", 6)
       },
 
       task_confirm(){
@@ -311,7 +313,7 @@ export default {
             }).then(data => {
               this.task_sended = 1
               this.admin_message_flag = 0
-              Vue.localStorage.set(this.app + "_eos_task_sended", 1)
+              Vue.localStorage.set("_eos_task_sended", 1)
               //Here need enable loader and disable complete button
 
             })
@@ -323,14 +325,14 @@ export default {
             }).then(data => {
               if (data['data']['registered'] == 1){
                 this.step = 10
-                Vue.localStorage.set(this.app + "_eos_step", 10)
+                Vue.localStorage.set("_eos_step", 10)
                 
               }
               if (data['data']['admin_comment'] != null){
                 this.admin_comment = data['data']['admin_comment']
                 this.task_sended = 0
                 this.admin_message_flag = 1
-                Vue.localStorage.set(this.app + "_eos_task_sended", 0)
+                Vue.localStorage.set("_eos_task_sended", 0)
                 console.log(data['data']['admin_comment'])
               }
 
@@ -340,7 +342,7 @@ export default {
 
       go_to_choice(){
         this.step = 3
-        Vue.localStorage.set(this.app + "_eos_step", 3)
+        Vue.localStorage.set("_eos_step", 3)
       },
       reset(){
         this.username = ""
@@ -350,11 +352,11 @@ export default {
         this.ruleForm2.username = ""
         this.pending = true
         this.task_sended = 0
-        Vue.localStorage.set(this.app + "_eos_step", 1)
-        Vue.localStorage.set(this.app + "_eos_eth", "")
-        Vue.localStorage.set(this.app + "_eos_topay", "")
-        Vue.localStorage.set(this.app + "_eos_new_account", "")
-        Vue.localStorage.set(this.app + "_task_sended", 0)
+        Vue.localStorage.set("_eos_step", 1)
+        Vue.localStorage.set("_eos_eth", "")
+        Vue.localStorage.set("_eos_topay", "")
+        Vue.localStorage.set("_eos_new_account", "")
+        Vue.localStorage.set("_task_sended", 0)
         
 
         ecc.randomKey().then(privateKey => {
@@ -382,13 +384,13 @@ export default {
       russian(){
         this.locale = 'ru'
         this.$locale = 'ru'
-        Vue.localStorage.set(this.app + '_eos_locale', "ru")
+        Vue.localStorage.set('_eos_locale', "ru")
             
       },
       english(){
         this.locale = 'en'
         this.$locale = 'en'
-        Vue.localStorage.set(this.app + '_eos_locale', "en")
+        Vue.localStorage.set('_eos_locale', "en")
             
       },
 
