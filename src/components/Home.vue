@@ -257,7 +257,7 @@ export default {
             self.step = 2
 
             
-            axios.post(process.env.registrator + 'php-registrator/regkeys.php', {
+            axios.post(process.env.registrator + 'regkeys.php', {
               username: self.username,
               active_pub: self.pubkey1,
               owner_pub: self.pubkey2
@@ -288,7 +288,7 @@ export default {
       },
 
       go_to_buy(){
-        axios.post(process.env.registrator + 'php-registrator/geteth.php', {
+        axios.post(process.env.registrator + 'geteth.php', {
               username: this.username
             }).then(data => {
               console.log(data)
@@ -307,7 +307,7 @@ export default {
       },
 
       task_confirm(){
-        axios.post(process.env.registrator + 'php-registrator/set_complete_task.php', {
+        axios.post(process.env.registrator + 'set_complete_task.php', {
               username: this.username,
               link: this.link_to_task,
             }).then(data => {
@@ -320,7 +320,7 @@ export default {
       },
 
       get_status(){
-        axios.post(process.env.registrator + 'php-registrator/get_status.php', {
+        axios.post(process.env.registrator + 'get_status.php', {
               username: this.username,
             }).then(data => {
               if (data['data']['registered'] == 1){
@@ -372,7 +372,7 @@ export default {
 
       },
       checkstatus(){
-          axios.post(process.env.registrator + 'php-registrator/status.php', {
+          axios.post(process.env.registrator + 'status.php', {
               username: this.username
             }).then(data => {
               if (data=="success"){
