@@ -1,7 +1,19 @@
 <template>
 <el-row>
 <el-row>
-  <el-col :span="6" :xs="24" :md="24">
+  <el-col :span="3" style="margin-top: 10px; width: 200px; position: absolute;">
+  <div >
+  <div style=" float: left; margin-left: 10px;">{{$t("language")}}</div>
+      <ul class="languagepicker">
+        <span v-if="locale=='en'" v-on:click="english()" ><li>🇺🇸English</li></span>
+        <span v-if="locale=='en'" v-on:click="russian()" ><li>🇷🇺Русский</li></span>
+        <span v-if="locale=='ru'" v-on:click="russian()" ><li>🇷🇺Русский</li></span>
+        <span v-if="locale=='ru'" v-on:click="english()" ><li>🇺🇸English</li></span>
+        
+      </ul>
+  </div>
+</el-col>
+  <el-col style="margin-top: 60px;" :span="24" :xs="24" :md="24">
     <div>
       <img class="logo" src="./../assets/logo.png">  
     </div>
@@ -11,18 +23,19 @@
 </el-row>
 
 <el-row v-if="(step==1)" type="flex" align="middle" justify="center" class="centered_inputs">
-  <el-col :span="8" :xs="24" :md="24">
+  
+  <el-col :span="24" :xs="24" :md="24">
     <div class="centered_inputs">
-      <p>Here you can register an DACom Protocol account</p>
-      <p>First, let's choose a nickname. It should consist of 12 characters of type 12345a-z and not have dots or special characters.</p>
-      <p>Make yourself one: </p>
+      <p>{{$t("here_you_can_register")}} {{app}}</p>
+      <p>{{$t("let_choose_a_nickname")}}</p>
+      <p></p>
     </div>
   <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" class="demo-ruleForm">
       <el-form-item label="Username" prop="username">
         <el-input v-model ="ruleForm2.username"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm2')">Check it</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm2')">{{$t("check_it")}}</el-button>
       </el-form-item>
     </el-form>
   </el-col>
@@ -31,19 +44,19 @@
 <el-row v-if="step==2" type="flex" align="middle" justify="center" class="centered_inputs">
         <el-col :span="12" :xs="24" :md="24">
       <div class="centered_inputs">
-      <p>Save the account keys: </p>
+      <p>{{$t("save_the_keys")}}</p>
       <div class="keys">
-        <p><b>Active Private Key:</b></p> 
+        <p><b>{{$t("active_private_key")}}:</b></p> 
         <p class="key">{{privkey1}}</p>
-        <p><b>Active Public Key:</b></p>
+        <p><b>{{$t("active_public_key")}}:</b></p>
         <p class="key">{{pubkey1}}</p>
-        <p><b>Owner Private Key:</b></p>
+        <p><b>{{$t("owner_private_key")}}:</b></p>
         <p class="key">{{privkey1}}</p>
-        <p><b>Owner Public Key:</b> 
+        <p><b>{{$t("owner_public_key")}}:</b> 
         <p class="key">{{pubkey1}}</p>
       </div>
-      <p>An active account key is required to sign transactions on the network. And with the help of the owner's key, you can restore access to the account if the active key is lost. If both keys are lost, you will not be able to recover your account. Keep them as keys from your heart!. </p>
-      <el-button type="primary" @click="go_to_choice()">Saved!</el-button>
+      <p>{{$t("key_descriptor")}}</p>
+      <el-button type="primary" @click="go_to_choice()">{{$t("saved")}}</el-button>
     </div>
   </el-col>
 </el-row>
@@ -51,34 +64,36 @@
 <el-row v-if="step==3" type="flex"  justify="space-around">
     <el-col :span="6" :xs="24" :md="8">
       <div style="text-align: center">
-        <h2>Paid Registration</h2>
-        <h3>50$</h3>
-        <el-button type="primary" @click="go_to_buy()">Pay</el-button>
-        <p style="text-align: justify;">The account comes with 64kb RAM and temporarily unlimited CPU and NET bandwidth. The account can be used to launch its own branches of the Protocol and has all the necessary resources for this.</p>
+        <h2>{{$t("paid_registration")}}</h2>
+        <h3>10$</h3>
+        <el-button type="primary" @click="go_to_buy()">{{$t("choise")}}</el-button>
+        <p style="text-align: justify;">{{$t("paid_account")}}</p>
       </div>
     </el-col>
 
     <el-col :span="6" :xs="24" :md="8">
       <div style="text-align: center">
-        <h2>Conditionally-Free Registration</h2>
-        <h3>Complete 1 task</h3>
-        <el-button type="primary" @click="go_to_task()">Get Task</el-button>
-        <p style="text-align: justify;">You are invited to perform one simple task from the community. After completing the job verification, the account will be registered with 4 KB of RAM and some bandwidth restrictions. The account can be used to participate in existing branches of the Protocol.</p>
+        <h2>{{$t("conditionally_registration")}}</h2>
+        <h3>{{$t("one_task")}}</h3>
+        <el-button type="primary" @click="go_to_task()">{{$t("get_one_task")}}</el-button>
+        <p style="text-align: justify;">{{$t("you_are_inveted")}}</p>
       </div>      
     </el-col>
+</el-row>
+<el-row v-if="step==3" type="flex" justify="space-around">
+      <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
 </el-row>
 
 <el-row v-if="step==4" type="flex" align="middle" justify="center" class="centered_inputs">
       <div class="centered_inputs">
-      <p>Cost of account registration: 50 USD. With the account will be delivered 64kb of RAM and sufficient bandwidth CPU and NET, which is enough for free use of the DACom operating system.</p>
-      <p>Username: </p>
+      <p>{{$t("username")}}: </p>
       <div class="keys">{{username}}  </div>
-      <p>Your personal ETH address: </p>
+      <p>{{$t("personal_eth")}}: </p>
       <div class="keys">{{eth}} </div>
-      <p>Transfer <span class="keys">{{topay}}</span> ETH, and after several confirmations, your account will be registered.</p>
-      <p>After payment, just wait on this page. Your account will be delivered as soon as possible. In case of problems, contact consultant.</p>
-      <el-button type="info" @click="step--">back</el-button>
-      <el-button type="danger" @click="reset()">reset</el-button>
+      <p>{{$t("transfer")}} <span class="keys">{{topay}}</span>
+      {{$t("account_will_be_registered")}}</p>
+      <el-button type="info" @click="step--">{{$t("back")}}</el-button>
+      <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
       <div class="loader"></div>
       
     </div>
@@ -86,32 +101,32 @@
 
 <el-row v-if="step==6" type="flex" align="middle" justify="center" class="centered_inputs">
       <div class="centered_inputs">
-      <p>Task: Just make a post in any social network with following content: </p>
-      <div class="keys">DACom Protocol - The Way to a Human Freedom on a New Age. https://dacom.io</div>
-      <p>After complete the task, put direct link to post in the folowing input, confirm it and wait on this page. Your account will be delivered as soon as possible. In case of problems, contact a consultant.</p>
+      <p style="text-align: center">{{$t("username")}}: {{username}}</p>
+      <p>{{$t("task1")}}</p>
+      <div class="keys">{{$t("task2")}}</div>
+      <p>{{$t("after_task_complete")}}</p>
       <div style="padding-bottom: 15px;">
         <el-input :disabled="task_sended == 1" v-model ="link_to_task"></el-input>
       </div>
-      <el-button type="info" @click="step=3">back</el-button>
-      <el-button type="danger" @click="reset()">reset</el-button>
-      <el-button v-if="task_sended==0" type="success"  @click="task_confirm()">Confirm</el-button>
+      <el-button type="info" @click="step=3">{{$t("back")}}</el-button>
+      <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
+      <el-button v-if="task_sended==0" type="success"  @click="task_confirm()">{{$t("confirm")}}</el-button>
       <div style="margin-top: 25px; background: gainsboro;border: 1px solid; text-align: center;" v-if="admin_message_flag==1">
-        <div style=""><b>Message from Community:</b></div>
+        <div style=""><b>:</b></div>
         <div>{{admin_comment}}</div>
       </div>
-      <p style="text-align: center">New User: {{username}}</p>
       <div v-if="task_sended==1" class="loader"></div>
-      
     </div>
 </el-row>
 
 
 <el-row v-if="step==10" type="flex" align="middle" justify="center" class="centered_inputs">
       <div style = "text-align: center;" class="centered_inputs">
-      <h2>Welcome to DACom Operation System</h2>
-      <h3>Account <u>{{username}}</u> is registered</h3>
-      <p>Now you can import keys in DScatter and use Protocol on the way to Freedom.</p>
-      <el-button type="danger" @click="reset()">reset</el-button>
+      <h2>{{$t("welcome_to")}} {{app}}</h2>
+      <h3>{{$t("account")}} <u>{{username}}</u> {{$t("is_registered")}}</h3>
+      <p>{{$t("import_keys")}} {{app}}</p>
+      <p><a href="https://get-scatter.com/">https://get-scatter.com/</a></p>
+      <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
 
     </div>
 </el-row>
@@ -126,12 +141,12 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueLocalStorage from 'vue-localstorage'
 Vue.use(VueLocalStorage)
-Vue.localStorage.get('eos_new_account', "''")
-Vue.localStorage.get('eos_username_reserved_flag', false)
-Vue.localStorage.get('eos_keys_saved_flag', false)
-Vue.localStorage.get("eos_task_sended", 0)
+Vue.localStorage.get(this.app + '_eos_new_account', "''")
+Vue.localStorage.get(this.app + '_eos_username_reserved_flag', false)
+Vue.localStorage.get(this.app + '_eos_keys_saved_flag', false)
+Vue.localStorage.get(this.app + "_eos_task_sended", 0)
 
-let ecc = require('tcjs-ecc')
+let ecc = require('eosjs-ecc')
 let TcApi = require('eosjs-api')
 let options = {
   httpEndpoint: "https://eost.travelchain.io", 
@@ -168,6 +183,8 @@ export default {
       };
       
       return {
+        locale: "en",
+        app: "TravelChain",
         username: "",
         privkey1: "",
         pubkey1: "",
@@ -191,21 +208,25 @@ export default {
       };
     },
     created(){
-      var saved_username =  Vue.localStorage.get('eos_new_account')
+      var saved_username =  Vue.localStorage.get(this.app + '_eos_new_account')
       this.username = saved_username
       
-      var step = Vue.localStorage.get('eos_step', 1)
+      var step = Vue.localStorage.get(this.app + '_eos_step', 1)
       this.step= step
       
-      var eth = Vue.localStorage.get('eos_eth', "")
+      var step = Vue.localStorage.get(this.app + '_eos_locale', 'en')
+      this.locale= step
+
+      var eth = Vue.localStorage.get(this.app + '_eos_eth', "")
         this.eth= eth
       
-      var topay = Vue.localStorage.get('eos_topay', "")
+      var topay = Vue.localStorage.get(this.app + '_eos_topay', "")
         this.topay = topay
-      var task_sended = Vue.localStorage.get('task_sended', 0)
+
+      var task_sended = Vue.localStorage.get(this.app + '_task_sended', 0)
         this.task_sended = task_sended
       
-      console.log("this.username", this.username)
+      this.app = process.env.APP
 
       ecc.randomKey().then(privateKey => {
         this.privkey1 = privateKey
@@ -229,9 +250,8 @@ export default {
         var self = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(self.username)
-            Vue.localStorage.set("eos_new_account", this.username)
-            Vue.localStorage.set('eos_step', 2)
+            Vue.localStorage.set(this.app + "_eos_new_account", this.username)
+            Vue.localStorage.set(this.app + '_eos_step', 2)
             self.step = 2
 
             
@@ -242,7 +262,6 @@ export default {
             })
 
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -265,6 +284,7 @@ export default {
             callback()
           })
       },
+
       go_to_buy(){
         axios.post(process.env.registrator + 'php-registrator/geteth.php', {
               username: this.username
@@ -272,16 +292,16 @@ export default {
               console.log(data)
               this.eth = data.data.addr
               this.topay = data.data.to_pay
-              Vue.localStorage.set("eos_eth", data.data.addr)
-              Vue.localStorage.set("eos_topay", data.data.to_pay)
+              Vue.localStorage.set(this.app + "_eos_eth", data.data.addr)
+              Vue.localStorage.set(this.app + "_eos_topay", data.data.to_pay)
               this.step = 4
-              Vue.localStorage.set("eos_step", 4)
+              Vue.localStorage.set(this.app + "_ eos_step", 4)
             })
       },
 
       go_to_task(){
         this.step = 6
-        Vue.localStorage.set("eos_step", 6)
+        Vue.localStorage.set(this.app + "_eos_step", 6)
       },
 
       task_confirm(){
@@ -291,7 +311,7 @@ export default {
             }).then(data => {
               this.task_sended = 1
               this.admin_message_flag = 0
-              Vue.localStorage.set("eos_task_sended", 1)
+              Vue.localStorage.set(this.app + "_eos_task_sended", 1)
               //Here need enable loader and disable complete button
 
             })
@@ -303,14 +323,14 @@ export default {
             }).then(data => {
               if (data['data']['registered'] == 1){
                 this.step = 10
-                Vue.localStorage.set("eos_step", 10)
+                Vue.localStorage.set(this.app + "_eos_step", 10)
                 
               }
               if (data['data']['admin_comment'] != null){
                 this.admin_comment = data['data']['admin_comment']
                 this.task_sended = 0
                 this.admin_message_flag = 1
-                Vue.localStorage.set("eos_task_sended", 0)
+                Vue.localStorage.set(this.app + "_eos_task_sended", 0)
                 console.log(data['data']['admin_comment'])
               }
 
@@ -320,7 +340,7 @@ export default {
 
       go_to_choice(){
         this.step = 3
-        Vue.localStorage.set("eos_step", 3)
+        Vue.localStorage.set(this.app + "_eos_step", 3)
       },
       reset(){
         this.username = ""
@@ -330,11 +350,11 @@ export default {
         this.ruleForm2.username = ""
         this.pending = true
         this.task_sended = 0
-        Vue.localStorage.set("eos_step", 1)
-        Vue.localStorage.set("eos_eth", "")
-        Vue.localStorage.set("eos_topay", "")
-        Vue.localStorage.set("eos_new_account", "")
-        Vue.localStorage.set("task_sended", 0)
+        Vue.localStorage.set(this.app + "_eos_step", 1)
+        Vue.localStorage.set(this.app + "_eos_eth", "")
+        Vue.localStorage.set(this.app + "_eos_topay", "")
+        Vue.localStorage.set(this.app + "_eos_new_account", "")
+        Vue.localStorage.set(this.app + "_task_sended", 0)
         
 
         ecc.randomKey().then(privateKey => {
@@ -354,9 +374,22 @@ export default {
               username: this.username
             }).then(data => {
               if (data=="success"){
+                console.log(data)
                 this.step=5
               } 
             })
+      },
+      russian(){
+        this.locale = 'ru'
+        this.$locale = 'ru'
+        Vue.localStorage.set(this.app + '_eos_locale', "ru")
+            
+      },
+      english(){
+        this.locale = 'en'
+        this.$locale = 'en'
+        Vue.localStorage.set(this.app + '_eos_locale', "en")
+            
       },
 
     }
@@ -414,6 +447,62 @@ a {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.languagepicker {
+  background-color: #FFF;
+  display: inline-block;
+  padding: 0;
+  height: 40px;
+  overflow: hidden;
+  transition: all .3s ease;
+  margin: 0 50px 10px 0;
+  vertical-align: top;
+  float: left;
+  cursor: pointer;
+}
+
+.languagepicker:hover {
+  /* don't forget the 1px border */
+  height: 81px;
+}
+
+.languagepicker a{
+  color: #000;
+  text-decoration: none;
+}
+
+.languagepicker li {
+  display: block;
+  padding: 0px 20px;
+  line-height: 40px;
+  border-top: 1px solid #EEE;
+}
+
+.languagepicker li:hover{
+  background-color: #EEE;
+}
+
+.languagepicker a:first-child li {
+  border: none;
+  background: #FFF !important;
+}
+
+.languagepicker li img {
+  margin-right: 5px;
+}
+
+.roundborders {
+  border-radius: 5px;
+}
+
+.large:hover {
+  /* 
+  don't forget the 1px border!
+  The first language is 40px heigh, 
+  the others are 41px
+  */
+  height: 245px;
 }
 
 </style>

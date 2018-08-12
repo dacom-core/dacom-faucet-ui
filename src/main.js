@@ -11,14 +11,43 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import 'element-ui/lib/theme-chalk/display.css';
 Vue.use(ElementUI, { locale: elementLocale });
+import VueI18n from 'vue-i18n';
+import en from './locales/en.json';
+import ru from './locales/ru.json';
 
+Vue.use(VueI18n)
 Vue.config.productionTip = true
 
-/* eslint-disable no-new */
-var vm = new Vue({
+const messages = {
+  en: en,
+  ru: ru 
+}
+
+let i18n = new VueI18n({
+  locale: 'en', // set locale
+  messages // set locale messages
+})
+
+Object.defineProperty(Vue.prototype, '$locale', {
+    get: function () {
+      return i18n.locale
+    },
+    set: function (locale) {
+      i18n.locale = locale
+    }
+  })
+
+var vue = new Vue({
+  i18n,
   el: '#app',
   router,
-  components: { App},
-  template: '<App/>'
+  data () {
+  	return {
+      }
+  },
+  components: { App },
+  template: '<app/>',
+  render: h => h(App)
 })
-window.vue = vm
+
+window.vue = vue
