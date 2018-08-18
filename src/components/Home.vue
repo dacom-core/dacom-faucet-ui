@@ -184,7 +184,6 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueLocalStorage from 'vue-localstorage'
-import MaskedInput from 'vue-masked-input' 
 
 Vue.use(VueLocalStorage)
 Vue.localStorage.get('_eos_new_account', "''")
