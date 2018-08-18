@@ -51,9 +51,9 @@
         <p><b>{{$t("active_public_key")}}:</b></p>
         <p class="key">{{pubkey1}}</p>
         <p><b>{{$t("owner_private_key")}}:</b></p>
-        <p class="key">{{privkey1}}</p>
+        <p class="key">{{privkey2}}</p>
         <p><b>{{$t("owner_public_key")}}:</b> 
-        <p class="key">{{pubkey1}}</p>
+        <p class="key">{{pubkey2}}</p>
       </div>
       <p>{{$t("key_descriptor")}}</p>
       <el-button type="primary" @click="go_to_choice()">{{$t("saved")}}</el-button>
