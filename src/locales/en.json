@@ -1,7 +1,7 @@
 {
 	"language": "Language",
 	"here_you_can_register": "Here you can register account for ",
-	"let_choose_a_nickname":"First, let's choose a nickname. It should consist of 12 characters of type 12345a-z and not have dots or special characters. Example: 'imsquad12345'",
+	"let_choose_a_nickname":"First, let's choose a nickname. It should consist of 12 characters of type 12345a-z and not have dots or special characters. Examples: 'imsquad12345' or 'imtraveleler'.",
 	"make_yourself_one":"Make yourself one: ",
 	"check_it":"Check it",
 	"save_the_keys":"Save the account keys: ",
@@ -13,15 +13,15 @@
 	"saved": "I safely saved the keys",
 	"paid_registration": "Paid Registration",
 	"choise": "Choise",
-	"paid_account":"The account comes with 128kb RAM and wide CPU and NET bandwidth.",
+	"paid_account":"The account comes with 8kb RAM.",
 	"conditionally_registration": "Conditionally-Free Registration",
 	"one_task": "1 Task",
 	"get_one_task": "Choise",
-	"you_are_inveted":"You are invited to perform one simple task from the community. After completing the task verification, the account will be registered with 8 KB of RAM with some restrictions for CPU and NET bandwidth. ",
+	"you_are_inveted":"You are invited to perform one simple task from the community. After completing the task verification, the account will be registered with 32kb RAM. ",
 	"username": "Username",
 	"personal_eth":"Personal ETH address",
 	"transfer": "Transfer",
-	"account_will_be_registered":"ETH, and after several confirmations, your account will be registered. Just waiting on this page.",
+	"account_will_be_registered":"After several confirmations, your account will be registered. Just waiting on this page.",
 	"back":"Back",
 	"reset": "Reset",
  	"task1":"Make a post in any social network with following content:",
@@ -32,5 +32,8 @@
  	"welcome_to": "Welcome to",
  	"account": "Account",
  	"is_registered":"is registered",
- 	"import_keys":"Now you can import keys in the Scatter and use "
+ 	"import_keys":"Now you can import keys in the Scatter and use ",
+ 	"transfer_tt":"Transfer 10 TT from ",
+	"to_account_with_memo" : "to account 'registrator' with memo-field: ",
+	"example": "Example: "
 }

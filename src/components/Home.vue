@@ -62,7 +62,7 @@
 </el-row>
 
 <el-row v-if="step==3" class="dynamic" type="flex" justify="space-around">
-    <el-col :xl="8" :lg="8" :xs="24" :md="8">
+    <el-col  :xl="8" :lg="8" :xs="24" :md="8">
       <div style="text-align: center">
         <h2>{{$t("conditionally_registration")}}</h2>
         <h3>{{$t("one_task")}}</h3>
@@ -71,14 +71,30 @@
       </div>      
     </el-col>
 
-    <el-col :xl="8" :lg="8" :xs="24" :md="8">
+    <el-col v-if="mode == 1" :xl="8" :lg="8" :xs="24" :md="8">
+      <div style="text-align: center">
+        <h2>{{$t("Phone-confirm registration")}}</h2>
+        <p >{{$t("paid_account")}}</p>
+        <p>{{$t("phone")}}</p>
+          <el-input style="padding-bottom: 20px" mask="\+1" type ="tel" v-model="phoneForm.phone"></el-input> 
+          <el-input v-if="phoneForm.sended" placeholder="" type ="tel" placeholder="Enter SMS-code"  v-model="phoneForm.code"></el-input> 
+      </div>
+      <div style="padding-top: 15px">
+      <el-button type="primary" @click="requestSMS()">{{$t("Request SMS")}}</el-button>
+      <el-button type="primary" v-if="phoneForm.sended" @click="verify()">{{$t("Verify Code")}}</el-button>
+  
+    </div>
+    </el-col>
+
+    <el-col  :xl="8" :lg="8" :xs="24" :md="8">
       <div style="text-align: center">
         <h2>{{$t("paid_registration")}}</h2>
-        <h3>10$</h3>
+        <h3>10 TT</h3>
         <el-button type="primary" @click="go_to_buy()">{{$t("choise")}}</el-button>
         <p >{{$t("paid_account")}}</p>
       </div>
     </el-col>
+
 </el-row>
 
 <el-row v-if="step==3" class="reset" type="flex" justify="space-around">
@@ -87,6 +103,30 @@
 
 
 <el-row v-if="step==4" type="flex" align="middle" justify="center" class="centered_inputs">
+      <el-col :xl="24" :lg="24" :xs="24" :md="24">
+      <div class="centered_inputs">
+      <p style="text-align: center">{{$t("username")}}: <u>{{username}}</u></p>
+      
+      <p>{{$t('transfer_tt')}}<a target="_blank" href="https://wallet.travelchain.io">wallet.travelchain.io</a> {{$t("to_account_with_memo")}}'{{username}}'.</p>
+      <div class="keys"><p>transfer your_tc_old_username registrator 10 TT "{{username}}" true</p></div>
+      {{$t("account_will_be_registered")}}</p>
+      <el-button type="info" @click="step--">{{$t("back")}}</el-button>
+      <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
+      <div class="loader"></div>
+      <div>
+        <p><b>{{$t("example")}}</b></p>
+        <p>TC-Old account: dark.sun</p>
+        <p>Amount: 10 TT</p>
+        <p>New TC-EOS account: imtraveleler</p>
+        <img class="instruction" src="./../assets/transfer_tt.jpg">
+      </div>
+      
+    </div>
+  </el-col>
+</el-row>
+
+
+<el-row v-if="step==20" type="flex" align="middle" justify="center" class="centered_inputs">
       <el-col :xl="24" :lg="24" :xs="24" :md="24">
       <div class="centered_inputs">
       <p>{{$t("username")}}: </p>
@@ -144,6 +184,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueLocalStorage from 'vue-localstorage'
+import MaskedInput from 'vue-masked-input' 
+
 Vue.use(VueLocalStorage)
 Vue.localStorage.get('_eos_new_account', "''")
 Vue.localStorage.get('_eos_username_reserved_flag', false)
@@ -169,6 +211,7 @@ export default {
   name: "Home",
 
     data() {
+      
       var checkAccount = (rule, username, callback) => {
         if (!username) {
           return callback(new Error('Please input the username'));
@@ -187,6 +230,8 @@ export default {
       };
       
       return {
+        mode: 2, //0 task-mode, 1 - phone-mode, 2 - pay-mode
+
         locale: "en",
         app: "TravelChain",
         username: "",
@@ -208,10 +253,21 @@ export default {
           username: [
             { validator: checkAccount, trigger: 'blur' }
           ]
+        },
+        phoneForm:{
+          phone: "+",
+          code:"",
+          sended: 0
+        },
+        phonerules:{
+          phone: [
+            {}
+          ]
         }
       };
     },
     created(){
+
       var saved_username =  Vue.localStorage.get('_eos_new_account')
       this.username = saved_username
       
@@ -234,6 +290,8 @@ export default {
       
       this.app = process.env.APP
 
+      this.mode = process.env.mode
+
       ecc.randomKey().then(privateKey => {
         this.privkey1 = privateKey
         this.pubkey1 = ecc.privateToPublic(privateKey)
@@ -250,8 +308,16 @@ export default {
 
 
     },
-    
+    components:{
+      MaskedInput
+    },
     methods: {
+      
+      requestSMS(){
+        var self = this
+        this.phoneForm.sended = 1;
+    
+      },
       submitForm(formName) {
         var self = this
         this.$refs[formName].validate((valid) => {
@@ -428,6 +494,7 @@ a {
     border: 1px solid;
     text-align: center;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 .key{
   font-size: 12px;
@@ -528,4 +595,8 @@ a {
     }
 }
 
+.instruction{
+  padding-top: 20px;
+  width: 100%;
+}
 </style>
