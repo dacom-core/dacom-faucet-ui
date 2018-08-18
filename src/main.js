@@ -14,7 +14,6 @@ Vue.use(ElementUI, { locale: elementLocale });
 import VueI18n from 'vue-i18n';
 import en from './locales/en.json';
 import ru from './locales/ru.json';
-import MaskedInput from 'vue-masked-input';
 
 
 Vue.use(VueI18n)
@@ -47,7 +46,7 @@ var vue = new Vue({
   	return {
       }
   },
-  components: { App, MaskedInput},
+  components: { App},
   template: '<app/>',
   render: h => h(App)
 })
