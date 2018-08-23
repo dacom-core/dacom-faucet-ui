@@ -238,7 +238,7 @@ export default {
         pubkey1: "",
         privkey2: "",
         pubkey2: "",
-        link_to_task:"https://",
+        link_to_task:"",
         admin_message_flag: 0,
         step: 1,
         eth: "",
