@@ -201,7 +201,7 @@ Vue.localStorage.get("_eos_task_sended", 0)
 let ecc = require('eosjs-ecc')
 let TcApi = require('eosjs-api')
 let options = {
-  httpEndpoint: "https://eost.travelchain.io", 
+  httpEndpoint: "https://api.dacom.io", 
   verbose: false, // API logging
   sign:true,
   logger: { // Default logging functions
