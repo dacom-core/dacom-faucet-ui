@@ -403,7 +403,7 @@ export default {
             })
       },
       get_account_jsos(){
-        tcapi.getAccount("darksun").
+        tcapi.getAccount(this.username).
                   then(data=>{
                     this.account_json = data
                   })
