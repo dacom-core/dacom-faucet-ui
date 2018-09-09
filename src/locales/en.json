@@ -32,8 +32,10 @@
  	"welcome_to": "Welcome to",
  	"account": "Account",
  	"is_registered":"is registered",
- 	"import_keys":"Now you can import keys in the Scatter and use ",
+ 	"import_keys":"Now you can import keys in the Scatter",
  	"transfer_tt":"Transfer 10 TT from ",
 	"to_account_with_memo" : "to account 'registrator' with memo-field: ",
-	"example": "Example: "
+	"example": "Example: ",
+	"instruction": "Instruction",
+	"register": "Register"
 }

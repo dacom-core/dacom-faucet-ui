@@ -32,7 +32,9 @@
     </div>
   <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" class="demo-ruleForm">
       <el-form-item label="Username" prop="username">
-        <el-input v-model ="ruleForm2.username"></el-input>
+        {{length}}
+        <el-input v-on:keyup.native="calculate_length()" v-model ="ruleForm2.username"></el-input>
+       
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm2')">{{$t("check_it")}}</el-button>
@@ -46,6 +48,7 @@
       <div class="centered_inputs">
       <p>{{$t("save_the_keys")}}</p>
       <div class="keys">
+       
         <p><b>{{$t("active_private_key")}}:</b></p> 
         <p class="key">{{privkey1}}</p>
         <p><b>{{$t("active_public_key")}}:</b></p>
@@ -56,7 +59,9 @@
         <p class="key">{{pubkey2}}</p>
       </div>
       <p>{{$t("key_descriptor")}}</p>
-      <el-button type="primary" @click="go_to_choice()">{{$t("saved")}}</el-button>
+      <p><el-checkbox v-model="saved">{{$t("saved")}}</el-checkbox></p>
+      <p><el-button :disabled="saved == 0" type="primary" @click="register()">{{$t("register")}}</el-button></p>
+      <div v-if="status_sended==1" class="loader"></div>
     </div>
   </el-col>
 </el-row>
@@ -168,10 +173,12 @@
       <div style = "text-align: center;" class="centered_inputs">
       <h2>{{$t("welcome_to")}} {{app}}</h2>
       <h3>{{$t("account")}} <u>{{username}}</u> {{$t("is_registered")}}</h3>
-      <p>{{$t("import_keys")}} {{app}}</p>
-      <p><a href="https://get-scatter.com/">https://get-scatter.com/</a></p>
+      <p>{{$t("import_keys")}}</p>
+      <p><a href="https://core.dacom.io/#/howtostart">{{$t("instruction")}}</a></p>
       <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
-
+      <div class="account_json">
+        <tree-view :data="account_json" :options="{maxDepth: 10, rootObjectKey: 'Account'}"></tree-view>
+      </div>
     </div>
 </el-row>
 
@@ -230,8 +237,12 @@ export default {
       
       return {
         mode: 2, //0 task-mode, 1 - phone-mode, 2 - pay-mode
-
+        length: 0,
         locale: "en",
+        account_json : "",
+        saved: 0,
+        status_sended: 0,
+        registration_process: 0,
         app: "TravelChain",
         username: "",
         privkey1: "",
@@ -287,6 +298,7 @@ export default {
       var task_sended = Vue.localStorage.get('_task_sended', 0)
         this.task_sended = task_sended
       
+
       this.app = process.env.APP
 
       this.mode = process.env.mode
@@ -301,10 +313,13 @@ export default {
       })
 
 
+
       this.intervalid1 = setInterval(function(){
         this.get_status()
       }.bind(this), 30000);
 
+      if (this.username)
+        this.get_account_jsos()
 
     },
     components:{
@@ -387,6 +402,12 @@ export default {
 
             })
       },
+      get_account_jsos(){
+        tcapi.getAccount("darksun").
+                  then(data=>{
+                    this.account_json = data
+                  })
+      },
 
       get_status(){
         axios.post(process.env.registrator + 'get_status.php', {
@@ -395,6 +416,7 @@ export default {
               if (data['data']['registered'] == 1){
                 this.step = 10
                 Vue.localStorage.set("_eos_step", 10)
+                this.get_account_jsos()
                 
               }
               if (data['data']['admin_comment'] != null){
@@ -407,6 +429,23 @@ export default {
 
               //Here need change step or status message if admin error
             })
+      },
+      calculate_length(){
+        console.log(this.ruleForm2.username)
+        var length = this.ruleForm2.username
+
+        this.length = length.length
+      },
+
+
+
+      register(){
+        this.status_sended = 1
+        self = this
+        axios.post(process.env.registrator + 'set_status.php', {
+              username: self.username,
+        })
+
       },
 
       go_to_choice(){
@@ -421,6 +460,11 @@ export default {
         this.ruleForm2.username = ""
         this.pending = true
         this.task_sended = 0
+        this.saved = 0
+        this.status_sended = 0
+        this.registration_process = 0
+        this.length = 0
+
         Vue.localStorage.set("_eos_step", 1)
         Vue.localStorage.set("_eos_eth", "")
         Vue.localStorage.set("_eos_topay", "")
@@ -484,8 +528,8 @@ a {
   color: #42b983;
 }
 .logo{
-  width: 200px;
-  padding-bottom: 30px;
+  width: 125px;
+  padding-bottom: 50px;
   opacity: 0.7;
 }
 .keys{
@@ -495,6 +539,18 @@ a {
     font-size: 14px;
     margin-bottom: 20px;
 }
+
+.account_json{
+    text-align: left;
+    margin-top: 30px;
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
 .key{
   font-size: 12px;
 }

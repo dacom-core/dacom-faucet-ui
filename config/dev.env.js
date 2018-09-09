@@ -4,7 +4,7 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  registrator:'"http://localhost:1111/php-registrator/"',
-  APP: '"Travelchain"',
+  registrator:'"https://registrator.dacom.io/"',
+  APP: '"Decentralized Autonomous Community"',
   mode: "'0'",
 })

@@ -14,7 +14,8 @@ Vue.use(ElementUI, { locale: elementLocale });
 import VueI18n from 'vue-i18n';
 import en from './locales/en.json';
 import ru from './locales/ru.json';
-
+import TreeView from "vue-json-tree-view"
+Vue.use(TreeView)
 
 Vue.use(VueI18n)
 Vue.config.productionTip = true

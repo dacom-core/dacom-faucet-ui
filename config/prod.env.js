@@ -1,7 +1,7 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  registrator:'"http://localhost:1111/"',
-  APP: '"Travelchain"',
+  registrator:'"https://registrator.dacom.io/"',
+  APP: '"Decentralized Autonomous Community"',
   mode: "'0'",
 }

@@ -32,9 +32,11 @@
  	"welcome_to": "Добро пожаловать в",
  	"account": "Аккаунт",
  	"is_registered":"зарегистрирован",
- 	"import_keys":"Теперь вы можете импортировать ключи в Scatter и использовать ",
+ 	"import_keys":"Теперь вы можете импортировать ключи в Scatter",
  	"transfer_tt":"Переведите 10 TT из ",
  	"to_account_with_memo" : "на аккаунт 'registrator' с указанием в поле memo: ",
- 	"example": "Пример: "
+ 	"example": "Пример: ",
+ 	"instruction": "Инструкция",
+ 	"register": "Регистрация"
 
 }
