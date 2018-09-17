@@ -61,7 +61,9 @@
       <p>{{$t("key_descriptor")}}</p>
       <p><el-checkbox v-model="saved">{{$t("saved")}}</el-checkbox></p>
       <p><el-button :disabled="saved == 0" type="primary" @click="register()">{{$t("register")}}</el-button></p>
-      <div v-if="status_sended==1" class="loader"></div>
+      <div v-if="status_sended==1" ><center><p>Registration can take a few minutes.</p> <p>Just wait on this page.</p></center>
+        <div class="loader"></div>
+      </div>
     </div>
   </el-col>
 </el-row>
@@ -176,9 +178,7 @@
       <p>{{$t("import_keys")}}</p>
       <p><a href="https://core.dacom.io/#/howtostart">{{$t("instruction")}}</a></p>
       <el-button type="danger" @click="reset()">{{$t("reset")}}</el-button>
-      <div class="account_json">
-        <tree-view :data="account_json" :options="{maxDepth: 10, rootObjectKey: 'Account'}"></tree-view>
-      </div>
+      
     </div>
 </el-row>
 
