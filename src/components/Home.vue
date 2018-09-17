@@ -193,10 +193,10 @@ import axios from 'axios'
 import VueLocalStorage from 'vue-localstorage'
 
 Vue.use(VueLocalStorage)
-Vue.localStorage.get('_eos_new_account', "''")
-Vue.localStorage.get('_eos_username_reserved_flag', false)
-Vue.localStorage.get('_eos_keys_saved_flag', false)
-Vue.localStorage.get("_eos_task_sended", 0)
+Vue.localStorage.get('dacom_new_account', "''")
+Vue.localStorage.get('dacom_username_reserved_flag', false)
+Vue.localStorage.get('dacom_keys_saved_flag', false)
+Vue.localStorage.get("dacom_task_sended", 0)
 
 let ecc = require('eosjs-ecc')
 let TcApi = require('eosjs-api')
@@ -278,21 +278,21 @@ export default {
     },
     created(){
 
-      var saved_username =  Vue.localStorage.get('_eos_new_account')
+      var saved_username =  Vue.localStorage.get('dacom_new_account')
       this.username = saved_username
       
-      var step = Vue.localStorage.get('_eos_step', 1)
+      var step = Vue.localStorage.get('dacom_step', 1)
       this.step= step
-      var locale = Vue.localStorage.get('_eos_locale', 'en')
+      var locale = Vue.localStorage.get('dacom_locale', 'en')
       if (locale == "ru")
         this.$locale = 'ru'
 
       this.locale = locale
 
-      var eth = Vue.localStorage.get('_eos_eth', "")
+      var eth = Vue.localStorage.get('dacom_eth', "")
         this.eth= eth
       
-      var topay = Vue.localStorage.get('_eos_topay', "")
+      var topay = Vue.localStorage.get('dacom_topay', "")
         this.topay = topay
 
       var task_sended = Vue.localStorage.get('_task_sended', 0)
@@ -336,8 +336,8 @@ export default {
         var self = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            Vue.localStorage.set("_eos_new_account", this.username)
-            Vue.localStorage.set('_eos_step', 2)
+            Vue.localStorage.set("dacom_new_account", this.username)
+            Vue.localStorage.set('dacom_step', 2)
             self.step = 2
 
             
@@ -378,8 +378,8 @@ export default {
               console.log(data)
               this.eth = data.data.addr
               this.topay = data.data.to_pay
-              Vue.localStorage.set("_eos_eth", data.data.addr)
-              Vue.localStorage.set("_eos_topay", data.data.to_pay)
+              Vue.localStorage.set("dacom_eth", data.data.addr)
+              Vue.localStorage.set("dacom_topay", data.data.to_pay)
               this.step = 4
               Vue.localStorage.set("_ eos_step", 4)
             })
@@ -387,7 +387,7 @@ export default {
 
       go_to_task(){
         this.step = 6
-        Vue.localStorage.set("_eos_step", 6)
+        Vue.localStorage.set("dacom_step", 6)
       },
 
       task_confirm(){
@@ -397,7 +397,7 @@ export default {
             }).then(data => {
               this.task_sended = 1
               this.admin_message_flag = 0
-              Vue.localStorage.set("_eos_task_sended", 1)
+              Vue.localStorage.set("dacom_task_sended", 1)
               //Here need enable loader and disable complete button
 
             })
@@ -415,7 +415,7 @@ export default {
             }).then(data => {
               if (data['data']['registered'] == 1){
                 this.step = 10
-                Vue.localStorage.set("_eos_step", 10)
+                Vue.localStorage.set("dacom_step", 10)
                 this.get_account_jsos()
                 
               }
@@ -423,7 +423,7 @@ export default {
                 this.admin_comment = data['data']['admin_comment']
                 this.task_sended = 0
                 this.admin_message_flag = 1
-                Vue.localStorage.set("_eos_task_sended", 0)
+                Vue.localStorage.set("dacom_task_sended", 0)
                 console.log(data['data']['admin_comment'])
               }
 
@@ -450,7 +450,7 @@ export default {
 
       go_to_choice(){
         this.step = 3
-        Vue.localStorage.set("_eos_step", 3)
+        Vue.localStorage.set("dacom_step", 3)
       },
       reset(){
         this.username = ""
@@ -465,10 +465,10 @@ export default {
         this.registration_process = 0
         this.length = 0
 
-        Vue.localStorage.set("_eos_step", 1)
-        Vue.localStorage.set("_eos_eth", "")
-        Vue.localStorage.set("_eos_topay", "")
-        Vue.localStorage.set("_eos_new_account", "")
+        Vue.localStorage.set("dacom_step", 1)
+        Vue.localStorage.set("dacom_eth", "")
+        Vue.localStorage.set("dacom_topay", "")
+        Vue.localStorage.set("dacom_new_account", "")
         Vue.localStorage.set("_task_sended", 0)
         
 
@@ -497,13 +497,13 @@ export default {
       russian(){
         this.locale = 'ru'
         this.$locale = 'ru'
-        Vue.localStorage.set('_eos_locale', "ru")
+        Vue.localStorage.set('dacom_locale', "ru")
             
       },
       english(){
         this.locale = 'en'
         this.$locale = 'en'
-        Vue.localStorage.set('_eos_locale', "en")
+        Vue.localStorage.set('dacom_locale', "en")
             
       },
 
